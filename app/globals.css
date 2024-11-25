@@ -1,13 +1,6 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #1B1D29;
+  --foreground: #ededed;
 }
 
 html,
@@ -19,7 +12,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Nabla", Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,13 +23,147 @@ body {
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+h1,
+h2,
+h3 {
+  font-family: "Nabla";
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h2 {
+  font-size: 2rem;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* HEADER STYLES */
+
+header {
+  grid-column: 2 / 12;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 2em 0;
+}
+
+header .brand {
+  font-family: "Nabla";
+  font-size: 2rem;
+  transform: rotate(-5deg);
+}
+
+/* BUTTON STYLES */
+
+button,
+input[type="submit"] {
+  font-family: "Nabla";
+  font-size: 1.5rem;
+
+  background: transparent;
+  border: none;
+
+  cursor: pointer;
+
+  transition: 250ms ease all;
+}
+
+header button {
+  transform: rotate(5deg);
+}
+
+main .create button {
+  font-size: 2rem;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  transform: scale(1.2);
+}
+
+/* MAIN LAYOUT */
+
+main {
+  grid-column: 2 / 12;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  text-align: center;
+}
+
+main .create {
+  grid-column: 1 / 13;
+  place-content: center;
+  min-height: 30svh;
+}
+
+/* DISPLAY TOKEN LISTINGS */
+
+main .listings {
+  grid-column: 1 / 13;
+}
+
+main .listings h1 {
+  font-family: "Doto";
+  font-weight: 900;
+  padding: 1em;
+}
+
+.tokens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 0));
+  gap: 1em;
+  place-content: center;
+}
+
+.token__details {
+  border: 1px solid var(--foreground);
+
+  font-family: "Doto";
+  font-weight: 600;
+}
+
+/* CREATE TOKEN FORM */
+
+.list {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 3em;
+}
+
+.list form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em;
+}
+
+.list form label {
+  font-size: 1.50rem;
+  font-weight: bold;
+}
+
+.list form input[type="text"] {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: none;
+
+  padding: 1em;
+  border-radius: 6px;
 }
