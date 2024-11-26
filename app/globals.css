@@ -58,7 +58,7 @@ header .brand {
 
 /* BUTTON STYLES */
 
-button,
+.btn--fancy,
 input[type="submit"] {
   font-family: "Nabla";
   font-size: 1.5rem;
@@ -71,15 +71,15 @@ input[type="submit"] {
   transition: 250ms ease all;
 }
 
-header button {
+header .btn--fancy {
   transform: rotate(5deg);
 }
 
-main .create button {
+main .create .btn--fancy {
   font-size: 2rem;
 }
 
-button:hover,
+.btn--fancy:hover,
 input[type="submit"]:hover {
   transform: scale(1.2);
 }
@@ -108,8 +108,8 @@ main .listings {
 }
 
 main .listings h1 {
-  font-family: "Doto";
-  font-weight: 900;
+  font-family: "Arial";
+  font-weight: 800;
   padding: 1em;
 }
 
@@ -120,11 +120,49 @@ main .listings h1 {
   place-content: center;
 }
 
-.token__details {
-  border: 1px solid var(--foreground);
+.token {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--foreground);
+  padding: 1em;
 
-  font-family: "Doto";
-  font-weight: 600;
+  font-size: 1.05rem;
+
+  cursor: pointer;
+}
+
+.token:nth-child(1) {
+  animation: blink alternate 0.25s ease 5;
+}
+
+.token:hover {
+  border: 1px solid var(--foreground);
+}
+
+@keyframes blink {
+  0% {
+    background: yellow;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.token__details {
+  font-family: "Arial";
+  font-weight: 400;
+}
+
+.token__details p {
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  padding: 0.5em;
+}
+
+.token__details .title {
+  font-size: 1.25rem;
 }
 
 /* CREATE TOKEN FORM */
@@ -145,6 +183,15 @@ main .listings h1 {
   padding-top: 3em;
 }
 
+.list__description {
+  font-family: "Arial";
+  font-size: 1.10rem;
+  font-weight: 400;
+  text-transform: lowercase;
+  width: 40ch;
+  padding: 1em 0 0;
+}
+
 .list form {
   display: flex;
   justify-content: center;
@@ -154,16 +201,70 @@ main .listings h1 {
   padding: 2em;
 }
 
-.list form label {
-  font-size: 1.50rem;
-  font-weight: bold;
-}
-
 .list form input[type="text"] {
   background-color: var(--background);
   color: var(--foreground);
   border: none;
 
-  padding: 1em;
+  width: 200px;
+  padding: 1.50em;
+  border-radius: 6px;
+}
+
+/* TRADE TOKENS */
+.trade {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 3em;
+}
+
+.trade__description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em 0 0;
+}
+
+.trade__description p {
+  font-family: "Arial";
+  font-size: 1.10rem;
+  font-weight: 400;
+  text-transform: lowercase;
+  width: 40ch;
+}
+
+.trade__description .title {
+  font-size: 1.50rem;
+  font-weight: 800;
+}
+
+.trade form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em;
+}
+
+.trade form input[type="number"] {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: none;
+
+  width: 200px;
+  padding: 1.50em;
   border-radius: 6px;
 }

@@ -2,8 +2,9 @@
 // Learn more about it at https://hardhat.org/ignition
 
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
+const { ethers } = require("hardhat");
 
-const FEE = 10
+const FEE = ethers.parseUnits("0.01", 18)
 
 module.exports = buildModule("LockModule", (m) => {
   // Get parameters
