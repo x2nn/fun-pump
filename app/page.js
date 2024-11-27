@@ -42,8 +42,6 @@ export default function Home() {
 
     const fee = await factory.fee()
     setFee(fee)
-
-    console.log(fee)
   }
 
   useEffect(() => {
