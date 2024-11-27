@@ -11,10 +11,13 @@ contract Factory {
     uint256 public immutable fee;
     address public owner;
 
+    uint256 public totalTokens;
     address[] public tokens;
     mapping(address => TokenSale) public tokenToSale;
 
     struct TokenSale {
+        address token;
+        string name;
         address creator;
         uint256 sold;
         uint256 raised;
@@ -55,8 +58,18 @@ contract Factory {
         // Store token address
         tokens.push(address(token));
 
+        // Increment total tokens
+        totalTokens++;
+
         // Create the sale.
-        TokenSale memory sale = TokenSale(msg.sender, 0, 0, true);
+        TokenSale memory sale = TokenSale(
+            address(token),
+            _name,
+            msg.sender,
+            0,
+            0,
+            true
+        );
 
         // Save the sale to mapping.
         tokenToSale[address(token)] = sale;

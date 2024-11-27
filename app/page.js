@@ -18,6 +18,7 @@ export default function Home() {
   const [account, setAccount] = useState(null)
   const [factory, setFactory] = useState(null)
   const [fee, setFee] = useState(0)
+  const [tokens, setTokens] = useState([])
   const [token, setToken] = useState(null)
   const [showCreate, setShowCreate] = useState(false)
   const [showTrade, setShowTrade] = useState(false)
@@ -42,11 +43,28 @@ export default function Home() {
 
     const fee = await factory.fee()
     setFee(fee)
+
+    const totalTokens = await factory.totalTokens()
+    const tokens = []
+
+    // We'll get the first 6 tokens listed
+    for (let i = 0; i < totalTokens; i++) {
+      if (i == 6) {
+        break
+      }
+
+      const token = await factory.getTokenSale(i)
+      tokens.push(token)
+    }
+
+    // We reverse the array so we can get the most
+    // recent token listed to display first
+    setTokens(tokens.reverse())
   }
 
   useEffect(() => {
     loadBlockchainData()
-  }, [])
+  }, [showCreate, showTrade])
 
   return (
     <div className="page">
@@ -61,39 +79,26 @@ export default function Home() {
           <h1>new listings</h1>
 
           <div className="tokens">
-            <Token
-              toggleTrade={toggleTrade}
-              token={{
-                creator: "0x0...000",
-                marketCap: 0.50,
-                name: "My Favorite Token"
-              }}
-            />
-            <Token
-              toggleTrade={toggleTrade}
-              token={{
-                creator: "0x0...000",
-                marketCap: 0.50,
-                name: "My Favorite Token"
-              }}
-            />
-            <Token
-              toggleTrade={toggleTrade}
-              token={{
-                creator: "0x0...000",
-                marketCap: 0.50,
-                name: "My Favorite Token"
-              }}
-            />
+            {tokens ? (
+              tokens.map((token, index) => (
+                <Token
+                  toggleTrade={toggleTrade}
+                  token={token}
+                  key={index}
+                />
+              ))
+            ) : (
+              <div>No tokens listed</div>
+            )}
           </div>
         </div>
 
         {showCreate && (
-          <List toggleCreate={toggleCreate} fee={fee} />
+          <List toggleCreate={toggleCreate} fee={fee} provider={provider} factory={factory} />
         )}
 
         {showTrade && (
-          <Trade toggleTrade={toggleTrade} token={token} />
+          <Trade toggleTrade={toggleTrade} token={token} provider={provider} factory={factory} />
         )}
       </main>
     </div>
