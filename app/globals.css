@@ -118,6 +118,13 @@ main .listings h1 {
   grid-template-columns: repeat(auto-fill, minmax(400px, 0));
   gap: 1em;
   place-content: center;
+  text-align: center;
+}
+
+.tokens p {
+  grid-column: 1 / -1;
+  font-family: "Arial";
+  font-size: 1.50rem;
 }
 
 .token {
@@ -170,7 +177,7 @@ main .listings h1 {
 .list {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
 
   position: fixed;
   top: 50%;

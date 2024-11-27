@@ -38,10 +38,7 @@ function Trade({ toggleTrade, token, provider, factory }) {
       <div className="trade__description">
         <p className="title">{token.name}</p>
         <p>creator: {token.creator.slice(0, 6) + '...' + token.creator.slice(38, 42)}</p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          At numquam qui sit minima nulla nesciunt eum dignissimos!
-        </p>
+        <img src={token.image} alt="Pepe" width={256} height={256} />
         <p>marketcap: {ethers.formatUnits(token.raised, 18)} ETH</p>
         <p>base cost: {ethers.formatUnits(cost, 18)} ETH</p>
       </div>

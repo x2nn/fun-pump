@@ -4,8 +4,8 @@ import "./globals.css";
 const nabla = Nabla({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Fun.Pump",
-  description: "Create token listings",
+  title: "fun.pump",
+  description: "create token listings",
 };
 
 export default function RootLayout({ children }) {

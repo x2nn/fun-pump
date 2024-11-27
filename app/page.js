@@ -12,6 +12,7 @@ import Trade from "./components/Trade"
 // ABIs & Config
 import Factory from "./abis/Factory.json"
 import config from "./config.json"
+import images from "./images.json"
 
 export default function Home() {
   const [provider, setProvider] = useState(null)
@@ -33,17 +34,22 @@ export default function Home() {
   }
 
   const loadBlockchainData = async () => {
+    // Use MetaMask for our connection
     const provider = new ethers.BrowserProvider(window.ethereum)
     setProvider(provider)
 
+    // Get the current network
     const network = await provider.getNetwork()
 
+    // Create reference to Factory contract
     const factory = new ethers.Contract(config[network.chainId].factory.address, Factory, provider)
     setFactory(factory)
 
+    // Fetch the fee
     const fee = await factory.fee()
     setFee(fee)
 
+    // Prepare to fetch token details
     const totalTokens = await factory.totalTokens()
     const tokens = []
 
@@ -53,7 +59,20 @@ export default function Home() {
         break
       }
 
-      const token = await factory.getTokenSale(i)
+      const tokenSale = await factory.getTokenSale(i)
+
+      // We create our own object to store extra fields
+      // like images
+      const token = {
+        token: tokenSale.token,
+        name: tokenSale.name,
+        creator: tokenSale.creator,
+        sold: tokenSale.sold,
+        raised: tokenSale.raised,
+        isOpen: tokenSale.isOpen,
+        image: images[i]
+      }
+
       tokens.push(token)
     }
 
@@ -72,14 +91,26 @@ export default function Home() {
 
       <main>
         <div className="create">
-          <button onClick={toggleCreate} className="btn--fancy">[ start a new token ]</button>
+          <button onClick={factory && account && toggleCreate} className="btn--fancy">
+            {!factory ? (
+              "[ contract not deployed ]"
+            ) : !account ? (
+              "[ please connect ]"
+            ) : (
+              "[ start a new token ]"
+            )}
+          </button>
         </div>
 
         <div className="listings">
           <h1>new listings</h1>
 
           <div className="tokens">
-            {tokens ? (
+            {!account ? (
+              <p>please connect wallet</p>
+            ) : tokens.length === 0 ? (
+              <p>No tokens listed</p>
+            ) : (
               tokens.map((token, index) => (
                 <Token
                   toggleTrade={toggleTrade}
@@ -87,8 +118,6 @@ export default function Home() {
                   key={index}
                 />
               ))
-            ) : (
-              <div>No tokens listed</div>
             )}
           </div>
         </div>
