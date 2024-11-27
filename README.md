@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# fun.pump
 
-## Getting Started
+## Technology Stack & Tools
 
-First, run the development server:
+- Solidity (Writing Smart Contracts & Tests)
+- Javascript (Next.js & Testing)
+- [Hardhat](https://hardhat.org/) (Development Framework)
+- [Ethers.js](https://docs.ethers.io/v5/) (Blockchain Interaction)
+- [Next.js](https://nextjs.org/) (Frontend Framework)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requirements For Initial Setup
+- Install [NodeJS](https://nodejs.org/en/). We recommend using an LTS (long-term-support) version, and preferably installing NodeJS via [NVM](https://github.com/nvm-sh/nvm#intro).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setting Up
+### 1. Clone/Download the Repository
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 2. Install Dependencies:
+`$ npm install`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Run tests
+`$ npx hardhat test`
 
-## Learn More
+### 4. Start Hardhat node
+`$ npx hardhat node`
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Run deployment script
+In a separate terminal execute:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you have previously deployed you may want to append `--reset` at the end:
 
-## Deploy on Vercel
+`$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost --reset`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 6. Start frontend
+`$ npm run dev`

@@ -139,7 +139,7 @@ main .listings h1 {
 }
 
 .token:nth-child(1) {
-  animation: blink alternate 0.25s ease 5;
+  animation: blink forwards 5s ease infinite;
 }
 
 .token:hover {
@@ -152,24 +152,37 @@ main .listings h1 {
     opacity: 0;
   }
 
-  100% {
+  5% {
+    background: none;
     opacity: 1;
+  }
+
+  95% {
+    background: none;
+    opacity: 1;
+  }
+
+  100% {
+    background: yellow;
+    opacity: 0;
   }
 }
 
 .token__details {
   font-family: "Arial";
   font-weight: 400;
+  text-align: center;
 }
 
 .token__details p {
   font-size: 0.95rem;
   text-transform: lowercase;
   padding: 0.5em;
+  width: 100%;
 }
 
-.token__details .title {
-  font-size: 1.25rem;
+.token__details .name {
+  font-size: 1.40rem;
 }
 
 /* CREATE TOKEN FORM */
@@ -195,7 +208,6 @@ main .listings h1 {
   font-size: 1.10rem;
   font-weight: 400;
   text-transform: lowercase;
-  width: 40ch;
   padding: 1em 0 0;
 }
 
@@ -235,26 +247,16 @@ main .listings h1 {
   padding-top: 3em;
 }
 
-.trade__description {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 1em;
-  padding: 1em 0 0;
-}
-
-.trade__description p {
+.trade p {
   font-family: "Arial";
   font-size: 1.10rem;
-  font-weight: 400;
   text-transform: lowercase;
-  width: 40ch;
 }
 
-.trade__description .title {
+.trade .disclaimer {
   font-size: 1.50rem;
-  font-weight: 800;
+  font-weight: bold;
+  padding: 2em;
 }
 
 .trade form {
