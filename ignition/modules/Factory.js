@@ -6,7 +6,7 @@ const { ethers } = require("hardhat");
 
 const FEE = ethers.parseUnits("0.01", 18)
 
-module.exports = buildModule("LockModule", (m) => {
+module.exports = buildModule("FactoryModule", (m) => {
   // Get parameters
   const fee = m.getParameter("fee", FEE);
 

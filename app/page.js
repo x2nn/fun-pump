@@ -24,16 +24,16 @@ export default function Home() {
   const [showCreate, setShowCreate] = useState(false)
   const [showTrade, setShowTrade] = useState(false)
 
-  const toggleCreate = () => {
+  function toggleCreate() {
     showCreate ? setShowCreate(false) : setShowCreate(true)
   }
 
-  const toggleTrade = (token) => {
+  function toggleTrade(token) {
     setToken(token)
     showTrade ? setShowTrade(false) : setShowTrade(true)
   }
 
-  const loadBlockchainData = async () => {
+  async function loadBlockchainData() {
     // Use MetaMask for our connection
     const provider = new ethers.BrowserProvider(window.ethereum)
     setProvider(provider)

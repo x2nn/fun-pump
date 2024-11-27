@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 
 function Header({ account, setAccount }) {
-  const connectHandler = async () => {
+  async function connectHandler() {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const account = ethers.getAddress(accounts[0])
     setAccount(account);

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { ethers } from "ethers"
 
 function Trade({ toggleTrade, token, provider, factory }) {
+  const [target, setTarget] = useState(0)
+  const [limit, setLimit] = useState(0)
   const [cost, setCost] = useState(0)
 
   async function buyHandler(form) {
@@ -22,13 +24,19 @@ function Trade({ toggleTrade, token, provider, factory }) {
     toggleTrade()
   }
 
-  async function getCost() {
+  async function getSaleDetails() {
+    const target = await factory.TARGET()
+    setTarget(target)
+
+    const limit = await factory.TOKEN_LIMIT()
+    setLimit(limit)
+
     const cost = await factory.getCost(token.sold)
     setCost(cost)
   }
 
   useEffect(() => {
-    getCost()
+    getSaleDetails()
   }, [])
 
   return (
@@ -43,7 +51,7 @@ function Trade({ toggleTrade, token, provider, factory }) {
         <p>base cost: {ethers.formatUnits(cost, 18)} ETH</p>
       </div>
 
-      {token.sold === ethers.parseUnits("500000", 18) || token.raised === ethers.parseUnits("3", 18) ? (
+      {token.sold >= limit || token.raised >= target ? (
         <p className="disclaimer">target reached!</p>
       ) : (
         <form action={buyHandler}>
