@@ -1,6 +1,6 @@
 # fun.pump
 
-## Technology Stack & Tools
+## 技术栈和工具
 
 - Solidity (Writing Smart Contracts & Tests)
 - Javascript (Next.js & Testing)
@@ -8,29 +8,29 @@
 - [Ethers.js](https://docs.ethers.io/v5/) (Blockchain Interaction)
 - [Next.js](https://nextjs.org/) (Frontend Framework)
 
-## Requirements For Initial Setup
-- Install [NodeJS](https://nodejs.org/en/). We recommend using an LTS (long-term-support) version, and preferably installing NodeJS via [NVM](https://github.com/nvm-sh/nvm#intro).
+## 我使用的node版本
+`v22.13.0`
 
-## Setting Up
-### 1. Clone/Download the Repository
+## 运行代码
+### 克隆项目
 
-### 2. Install Dependencies:
+### 安装所需包
 `$ npm install`
 
-### 3. Run tests
+### 运行测试
 `$ npx hardhat test`
 
-### 4. Start Hardhat node
+### 启动本地区块链
 `$ npx hardhat node`
 
-### 5. Run deployment script
-In a separate terminal execute:
+### 部署合约
+部署合约
 
 `$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost`
 
-If you have previously deployed you may want to append `--reset` at the end:
+部署合约后，对部署的合约进行重置。
 
 `$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost --reset`
 
-### 6. Start frontend
+### 前端启动
 `$ npm run dev`
