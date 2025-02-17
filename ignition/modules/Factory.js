@@ -4,15 +4,18 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 const { ethers } = require("hardhat");
 
-const FEE = ethers.parseUnits("0.01", 18)
+const FEE = ethers.parseUnits("0.01", 18);
 
 module.exports = buildModule("FactoryModule", (m) => {
-  // Get parameters
-  const fee = m.getParameter("fee", FEE);
+    const fee = m.getParameter("fee", FEE);
+    
+    const factory = m.contract("Factory", [fee]);
 
-  // Define factory
-  const factory = m.contract("Factory", [fee]);
-
-  // Return factory
-  return { factory };
+    return { factory };
 })
+//部署合约
+//npx hardhat ignition deploy ignition/modules/Factory.js --network localhost
+//如果reset之前已经部署了合约
+//npx hardhat ignition deploy ignition/modules/Factory.js --network localhost --reset
+//运行next.js
+//npm run dev

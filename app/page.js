@@ -15,87 +15,80 @@ import config from "./config.json"
 import images from "./images.json"
 
 export default function Home() {
-  const [provider, setProvider] = useState(null)
-  const [account, setAccount] = useState(null)
-  const [factory, setFactory] = useState(null)
-  const [fee, setFee] = useState(0)
-  const [tokens, setTokens] = useState([])
-  const [token, setToken] = useState(null)
-  const [showCreate, setShowCreate] = useState(false)
-  const [showTrade, setShowTrade] = useState(false)
+  const [provider, setProvider] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [factory, setFactory] = useState(null);
+  const [fee, setFee] = useState(0);
+  const [showCreate, setShowCreate] = useState(false);
+  const [tokens, setTokens] = useState([]);
+  const [showTrade, setShowTrade] = useState(false);
+  const [token, setToken] = useState(false);
 
-  function toggleCreate() {
-    showCreate ? setShowCreate(false) : setShowCreate(true)
-  }
 
-  function toggleTrade(token) {
-    setToken(token)
-    showTrade ? setShowTrade(false) : setShowTrade(true)
-  }
+  async function loadBlockchainData(){
+    //连接metamask钱包
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    setProvider(provider);
 
-  async function loadBlockchainData() {
-    // Use MetaMask for our connection
-    const provider = new ethers.BrowserProvider(window.ethereum)
-    setProvider(provider)
+    //获取网络
+    const network = await provider.getNetwork();
 
-    // Get the current network
-    const network = await provider.getNetwork()
+    console.log("chainId:",network.chainId);
+    console.log("address:", config[network.chainId].factory.address);
+    //address,abi,signerOrProvider
+    const factory = new ethers.Contract(config[network.chainId].factory.address,Factory,provider);
+    setFactory(factory);
+    console.log("factory:",factory);
+    const fee = await factory.fee();
+    console.log("fee:",fee);
+    setFee(fee);
 
-    // Create reference to Factory contract
-    const factory = new ethers.Contract(config[network.chainId].factory.address, Factory, provider)
-    setFactory(factory)
-
-    // Fetch the fee
-    const fee = await factory.fee()
-    setFee(fee)
-
-    // Prepare to fetch token details
-    const totalTokens = await factory.totalTokens()
+    //获取token的总数量
+    const totalToken = await factory.totalTokens();
     const tokens = []
+    for(let i = 0; i < totalToken; i++){
+      const tokenToSale = await factory.getTokenSale(i);
+      //输出创建的token的信息
+      console.log(tokenToSale);
 
-    // We'll get the first 6 tokens listed
-    for (let i = 0; i < totalTokens; i++) {
-      if (i == 6) {
-        break
-      }
-
-      const tokenSale = await factory.getTokenSale(i)
-
-      // We create our own object to store extra fields
-      // like images
       const token = {
-        token: tokenSale.token,
-        name: tokenSale.name,
-        creator: tokenSale.creator,
-        sold: tokenSale.sold,
-        raised: tokenSale.raised,
-        isOpen: tokenSale.isOpen,
+        token: tokenToSale.token,
+        name: tokenToSale.name,
+        creator: tokenToSale.creator,
+        sold: tokenToSale.sold,
+        raised: tokenToSale.raised,
+        isOpen: tokenToSale.isOpen,
         image: images[i]
       }
-
-      tokens.push(token)
+      tokens.push(token);
     }
+    setTokens(tokens.reverse());
+    console.log("tokens:",tokens);
+  }
+  function toggleCreate(){
+    console.log("creating...");
+    showCreate ? setShowCreate(false) : setShowCreate(true);
+  }
 
-    // We reverse the array so we can get the most
-    // recent token listed to display first
-    setTokens(tokens.reverse())
+  function toggleTrade(token){
+    console.log("trading...");
+    setToken(token);
+    showTrade ? setShowTrade(false) : setShowTrade(true);
   }
 
   useEffect(() => {
-    loadBlockchainData()
-  }, [showCreate, showTrade])
-
+    loadBlockchainData();
+  },[])
   return (
     <div className="page">
-      <Header account={account} setAccount={setAccount} />
-
+      <Header account={account} setAccount={setAccount}/>
       <main>
         <div className="create">
           <button onClick={factory && account && toggleCreate} className="btn--fancy">
             {!factory ? (
               "[ contract not deployed ]"
             ) : !account ? (
-              "[ please connect ]"
+              "[ please connect wallet ]"
             ) : (
               "[ start a new token ]"
             )}
@@ -104,7 +97,6 @@ export default function Home() {
 
         <div className="listings">
           <h1>new listings</h1>
-
           <div className="tokens">
             {!account ? (
               <p>please connect wallet</p>
@@ -112,24 +104,21 @@ export default function Home() {
               <p>No tokens listed</p>
             ) : (
               tokens.map((token, index) => (
-                <Token
-                  toggleTrade={toggleTrade}
-                  token={token}
-                  key={index}
-                />
+                <Token toggleTrade={toggleTrade} token={token} key={index} />
               ))
-            )}
+            )
+            }
           </div>
         </div>
-
-        {showCreate && (
-          <List toggleCreate={toggleCreate} fee={fee} provider={provider} factory={factory} />
-        )}
-
-        {showTrade && (
-          <Trade toggleTrade={toggleTrade} token={token} provider={provider} factory={factory} />
-        )}
       </main>
+      {showCreate && (
+        <List toggleCreate={toggleCreate} fee={fee} provider={provider} factory={factory}/>
+        )}
+
+      {showTrade && (
+          <Trade toggleTrade={toggleTrade} token={token} provider={provider} factory={factory}/>
+        )}
+
     </div>
   );
 }
