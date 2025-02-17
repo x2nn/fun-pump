@@ -103,8 +103,6 @@ contract Factory {
         //代币销售结束后资金结算的逻辑
 
         //剩下的token余额和增加的ETH
-        //会进入像uniswap v3那样的流动性池
-        //为了简单起见，我们只转移剩余的部分
         //剩余的tokens 和 ETH转给creator
         Token token = Token(_token);
         TokenSale memory sale = tokenToSale[_token];
